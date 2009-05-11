@@ -1,4 +1,4 @@
-indicator-messages (0.1.6-0ubuntu2~ppa1) UNRELEASED; urgency=low
+indicator-messages (0.1.6-0ubuntu2~ppa1) jaunty; urgency=low
 
   * Merge from upstream branch.
   	* Moving the ref'ing and deref'ing of objects to dispose instead of
@@ -7,7 +7,7 @@ indicator-messages (0.1.6-0ubuntu2~ppa1) UNRELEASED; urgency=low
     * Correctly remember the timer for updating the time.  Fix by Ka-Hing
       Cheung.  (LP: #365187)
 
- -- Ted Gould <ted@ubuntu.com>  Mon, 11 May 2009 08:42:54 -0500
+ -- Ted Gould <ted@ubuntu.com>  Mon, 11 May 2009 08:46:46 -0500
 
 indicator-messages (0.1.6-0ubuntu1) jaunty; urgency=low
 
