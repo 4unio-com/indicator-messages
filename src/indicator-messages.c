@@ -42,6 +42,9 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define IS_INDICATOR_MESSAGES_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), INDICATOR_MESSAGES_TYPE))
 #define INDICATOR_MESSAGES_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), INDICATOR_MESSAGES_TYPE, IndicatorMessagesClass))
 
+#define ICON_NORMAL     "indicator-messages"
+#define ICON_GREEN_DOT  "indicator-messages-new"
+
 typedef struct _IndicatorMessages      IndicatorMessages;
 typedef struct _IndicatorMessagesClass IndicatorMessagesClass;
 
@@ -65,6 +68,8 @@ static GtkWidget * main_image = NULL;
 static GtkIconSize design_team_size;
 static DBusGProxy * icon_proxy = NULL;
 static GtkSizeGroup * indicator_right_group = NULL;
+static guint blinker = 0;
+static const gchar * current_icon = ICON_NORMAL;
 
 /* Prototypes */
 static void indicator_messages_class_init (IndicatorMessagesClass *klass);
@@ -112,14 +117,36 @@ G_OBJECT_CLASS (indicator_messages_parent_class)->finalize (object);
 
 
 /* Functions */
+static gboolean
+blinker_undo_cb (gpointer data)
+{
+	gtk_image_set_from_icon_name(GTK_IMAGE(main_image), current_icon, DESIGN_TEAM_SIZE);
+	return FALSE;
+}
+
+static gboolean
+blinker_cb (gpointer data)
+{
+	gtk_image_set_from_icon_name(GTK_IMAGE(main_image), ICON_NORMAL, DESIGN_TEAM_SIZE);
+	g_timeout_add(100, blinker_undo_cb, NULL);
+	return TRUE;
+}
+
 static void
 attention_changed_cb (DBusGProxy * proxy, gboolean dot, gpointer userdata)
 {
-	if (dot) {
-		gtk_image_set_from_icon_name(GTK_IMAGE(main_image), "indicator-messages-new", DESIGN_TEAM_SIZE);
-	} else {
-		gtk_image_set_from_icon_name(GTK_IMAGE(main_image), "indicator-messages", DESIGN_TEAM_SIZE);
+	if (blinker != 0) {
+		g_source_remove(blinker);
 	}
+
+	if (dot) {
+		current_icon = ICON_GREEN_DOT;
+		blinker = g_timeout_add_seconds(2, blinker_cb, NULL);
+	} else {
+		current_icon = ICON_NORMAL;
+	}
+
+	gtk_image_set_from_icon_name(GTK_IMAGE(main_image), current_icon, DESIGN_TEAM_SIZE);
 	return;
 }
 
