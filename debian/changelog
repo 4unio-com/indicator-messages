@@ -1,3 +1,10 @@
+indicator-messages (0.2.6+r156-0ubuntu3) lucid; urgency=low
+
+  * debian/control
+    - add a Breaks for indicator-applet (<< 0.3.0)
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Tue, 15 Dec 2009 12:09:23 -0500
+
 indicator-messages (0.2.6+r156-0ubuntu2) karmic; urgency=low
 
   * Merged from trunk 
