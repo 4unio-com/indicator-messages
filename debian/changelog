@@ -1,23 +1,42 @@
-indicator-messages (0.2.6+r156-0ubuntu3) karmic; urgency=low
+indicator-messages (0.3.1-0ubuntu2~karmic1) karmic; urgency=low
 
-  * debian/control
-    - add a Breaks for indicator-applet (<< 0.3.0)
+  * merged for karmic
 
- -- Ken VanDine <ken.vandine@canonical.com>  Tue, 15 Dec 2009 12:09:23 -0500
+ -- Ken VanDine <ken.vandine@canonical.com>  Thu, 11 Feb 2010 09:41:58 -0500
 
-indicator-messages (0.2.6+r156-0ubuntu2) karmic; urgency=low
+indicator-messages (0.3.1-0ubuntu2) lucid; urgency=low
 
-  * Merged from trunk 
+  * Upstream Merge
+    * Removing extra ref
+    * Moving locally defined variable to use the one defined in
+      the function to fix a NULL pointer. (lp: #518547)
 
- -- Ken VanDine <ken.vandine@canonical.com>  Thu, 10 Dec 2009 14:51:34 -0500
+ -- Ted Gould <ted@ubuntu.com>  Tue, 09 Feb 2010 09:30:10 -0600
 
-indicator-messages (0.2.6+r156-0ubuntu1) karmic; urgency=low
+indicator-messages (0.3.1-0ubuntu1) lucid; urgency=low
 
-  * New snapshot for libindicator 0.3.0
-  * debian/control
-    - Build-Depends on libindicator >= 0.3.0
+  * Upstream release 0.3.1
+    * Updates for dbusmenu 0.2.2
+    * Updates for libindicate 0.3.0
+  * debian/control:
+    * dbusmenu* depends to 0.2.2
+    * libindicate* depends to 0.3.0
 
- -- Ken VanDine <ken.vandine@canonical.com>  Thu, 10 Dec 2009 14:35:46 -0500
+ -- Ted Gould <ted@ubuntu.com>  Thu, 04 Feb 2010 18:23:34 -0800
+
+indicator-messages (0.3.0-0ubuntu1) lucid; urgency=low
+
+  * Upstream release 0.3.0
+    - Disabling static builds.
+    - Porting to libindicator 0.3.0
+    - Adding translator comments from hours and minutes strings.
+      (LP: #456437)
+    - Upgrading to dbusmenu 0.2.0
+  * debian/control: Updating dbusmenu dependency to 0.2.0
+  * debian/control: Increasing libindicator-dev dependency to
+    0.3.0
+
+ -- Ted Gould <ted@ubuntu.com>  Fri, 08 Jan 2010 12:05:25 -0600
 
 indicator-messages (0.2.6-0ubuntu1) karmic; urgency=low
 

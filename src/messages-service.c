@@ -488,7 +488,7 @@ server_added (IndicateListener * listener, IndicateListenerServer * server, gcha
 
 	/* Build a separator */
 	sl_item->separator = dbusmenu_menuitem_new();
-	dbusmenu_menuitem_property_set(sl_item->separator, "type", DBUSMENU_CLIENT_TYPES_SEPARATOR);
+	dbusmenu_menuitem_property_set(sl_item->separator, DBUSMENU_MENUITEM_PROP_TYPE, DBUSMENU_CLIENT_TYPES_SEPARATOR);
 
 	/* Incase we got an indicator first */
 	GList * alreadythere = g_list_find_custom(serverList, sl_item, serverList_equal);
@@ -821,7 +821,6 @@ indicator_added (IndicateListener * listener, IndicateListenerServer * server, I
 	/* Building the IM Menu Item which is a subclass
 	   of DBus Menuitem */
 	ImMenuItem * menuitem = im_menu_item_new(listener, server, indicator);
-	g_object_ref(G_OBJECT(menuitem));
 	listItem->menuitem = DBUSMENU_MENUITEM(menuitem);
 
 	/* Looking for a server entry to attach this indicator
@@ -835,7 +834,7 @@ indicator_added (IndicateListener * listener, IndicateListenerServer * server, I
 	if (serverentry == NULL) {
 		/* This sucks, we got an indicator before the server.  I guess
 		   that's the joy of being asynchronous */
-		serverList_t * sl_item = g_new0(serverList_t, 1);
+		sl_item = g_new0(serverList_t, 1);
 		sl_item->server = server;
 		sl_item->menuitem = NULL;
 		sl_item->imList = NULL;
@@ -1139,7 +1138,7 @@ build_launcher (gpointer data)
 
 		/* Build a separator */
 		ll->separator = dbusmenu_menuitem_new();
-		dbusmenu_menuitem_property_set(ll->separator, "type", DBUSMENU_CLIENT_TYPES_SEPARATOR);
+		dbusmenu_menuitem_property_set(ll->separator, DBUSMENU_MENUITEM_PROP_TYPE, DBUSMENU_CLIENT_TYPES_SEPARATOR);
 
 		/* Add it to the list */
 		launcherList = g_list_insert_sorted(launcherList, ll, launcherList_sort);
