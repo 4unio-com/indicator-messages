@@ -71,6 +71,7 @@ INDICATOR_SET_TYPE(INDICATOR_MESSAGES_TYPE)
 static GtkWidget * main_image = NULL;
 static DBusGProxy * icon_proxy = NULL;
 static GtkSizeGroup * indicator_right_group = NULL;
+static GtkIconSize design_team_size;
 
 /* Prototypes */
 static void indicator_messages_class_init (IndicatorMessagesClass *klass);
@@ -98,6 +99,8 @@ indicator_messages_class_init (IndicatorMessagesClass *klass)
 
 	io_class->get_image = get_icon;
 	io_class->get_menu = get_menu;
+
+	design_team_size = gtk_icon_size_register("design-team-size", 22, 22);
 
 	return;
 }
@@ -426,14 +429,18 @@ new_application_item (DbusmenuMenuitem * newitem, DbusmenuMenuitem * parent, Dbu
 
 	/* Set the minimum size, we always want it to take space */
 	gint width, height;
-	gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, &height);
+	gtk_icon_size_lookup(design_team_size, &width, &height);
 
-	GtkWidget * icon = gtk_image_new_from_icon_name(dbusmenu_menuitem_property_get(newitem, APPLICATION_MENUITEM_PROP_ICON), GTK_ICON_SIZE_MENU);
+	GtkWidget * icon = gtk_image_new_from_icon_name(dbusmenu_menuitem_property_get(newitem, APPLICATION_MENUITEM_PROP_ICON), design_team_size);
+
+	g_debug ("icon \"%s\", size request: %dx%d",
+			 dbusmenu_menuitem_property_get(newitem, APPLICATION_MENUITEM_PROP_ICON),
+			 width + 5 + 1, height);
 	gtk_widget_set_size_request(icon, width
 								+ 5 /* ref triangle is 5x9 pixels */
-								+ 2 /* padding */,
+								+ 1 /* padding */,
 								height);
-	gtk_misc_set_alignment(GTK_MISC(icon), 1.0 /* right aligned */, 0.5);
+	gtk_misc_set_alignment(GTK_MISC(icon), 0.5 /* right aligned */, 0);
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(gmi), icon);
 	gtk_widget_show(icon);
 
