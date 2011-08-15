@@ -8,10 +8,11 @@
 #define INDICATOR_MESSAGES_DBUS_SERVICE_OBJECT     "/com/canonical/indicator/messages/service"
 #define INDICATOR_MESSAGES_DBUS_SERVICE_INTERFACE  "com.canonical.indicator.messages.service"
 
-#define APPLICATION_MENUITEM_TYPE        "application-item"
-#define APPLICATION_MENUITEM_PROP_NAME   "label"
-#define APPLICATION_MENUITEM_PROP_ICON   "icon-name"
-#define APPLICATION_MENUITEM_PROP_RUNNING "app-running"
+#define APPLICATION_MENUITEM_TYPE             "application-item"
+#define APPLICATION_MENUITEM_PROP_NAME        "label"
+#define APPLICATION_MENUITEM_PROP_ICON        "icon-name"
+#define APPLICATION_MENUITEM_PROP_RUNNING     "app-running"
+#define APPLICATION_MENUITEM_PROP_ATTENTION   "app-attention"
 
 #define INDICATOR_MENUITEM_TYPE          "indicator-item"
 #define INDICATOR_MENUITEM_PROP_LABEL    "indicator-label"
