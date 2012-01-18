@@ -73,6 +73,7 @@ static void count_changed (IndicateListener * listener, IndicateListenerServer *
 static void count_cb (IndicateListener * listener, IndicateListenerServer * server, guint value, gpointer data);
 static void menu_cb (IndicateListener * listener, IndicateListenerServer * server, const gchar * menupath, gpointer data);
 static void desktop_cb (IndicateListener * listener, IndicateListenerServer * server, const gchar * value, gpointer data);
+static void icon_theme_cb (IndicateListener * listener, IndicateListenerServer * server, const gchar * value, gpointer data);
 static void update_label (AppMenuItem * self);
 
 /* GObject Boilerplate */
@@ -240,6 +241,7 @@ app_menu_item_new (IndicateListener * listener, IndicateListenerServer * server)
 	indicate_listener_server_get_desktop(listener, server, desktop_cb, self);
 	indicate_listener_server_get_count(listener, server, count_cb, self);
 	indicate_listener_server_get_menu(listener, server, menu_cb, self);
+	indicate_listener_server_get_icon_theme(listener, server, icon_theme_cb, self);
 
 	g_signal_connect(G_OBJECT(self), DBUSMENU_MENUITEM_SIGNAL_ITEM_ACTIVATED, G_CALLBACK(activate_cb), NULL);
 
@@ -377,6 +379,18 @@ desktop_cb (IndicateListener * listener, IndicateListenerServer * server, const 
 
 	g_signal_emit(G_OBJECT(self), signals[NAME_CHANGED], 0, app_menu_item_get_name(self), TRUE);
 
+	return;
+}
+
+static void
+icon_theme_cb (IndicateListener * listener, IndicateListenerServer * server, const gchar * value, gpointer data)
+{
+	g_return_if_fail(IS_APP_MENU_ITEM(data));
+	AppMenuItem * self = APP_MENU_ITEM(data);
+	
+	dbusmenu_menuitem_property_set(DBUSMENU_MENUITEM(self), APPLICATION_MENUITEM_PROP_ICON_THEME,
+				       value);
+	
 	return;
 }
 
