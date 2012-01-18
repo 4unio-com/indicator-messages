@@ -571,9 +571,37 @@ numbers_draw_cb (GtkWidget *widget, GdkEventExpose *event, gpointer data)
 	/* remember to destroy cairo context to avoid leaks */
 	cairo_destroy (cr);
 #endif
-
+	
 	return TRUE;
 }
+
+
+static GtkWidget *
+get_application_icon_widget (DbusmenuMenuitem *newitem, gint size)
+{
+	GtkIconTheme *icon_theme = NULL;
+	const gchar *icon_theme_name = dbusmenu_menuitem_property_get(newitem, APPLICATION_MENUITEM_PROP_ICON_THEME);
+	
+	if (icon_theme_name != NULL && (strlen(icon_theme_name) >= 1)) {
+		icon_theme = gtk_icon_theme_new();
+		gtk_icon_theme_set_custom_theme(icon_theme, icon_theme_name);
+	} else {
+		icon_theme = g_object_ref(gtk_icon_theme_get_default());
+	}
+	
+	GdkPixbuf *pb = gtk_icon_theme_load_icon(icon_theme, 
+						 dbusmenu_menuitem_property_get(newitem, APPLICATION_MENUITEM_PROP_ICON),
+						 size,
+						 0,
+						 NULL);
+	GtkWidget * icon = gtk_image_new_from_pixbuf(pb);
+	
+	g_object_unref(G_OBJECT(pb));
+	g_object_unref(G_OBJECT(icon_theme));
+	
+	return icon;						  
+}
+	
 
 /* Builds a menu item representing a running application in the
    messaging menu */
@@ -589,7 +617,7 @@ new_application_item (DbusmenuMenuitem * newitem, DbusmenuMenuitem * parent, Dbu
 	gint width, height;
 	gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, &height);
 
-	GtkWidget * icon = gtk_image_new_from_icon_name(dbusmenu_menuitem_property_get(newitem, APPLICATION_MENUITEM_PROP_ICON), GTK_ICON_SIZE_MENU);
+	GtkWidget * icon = get_application_icon_widget(newitem, width);
 	gtk_widget_set_size_request(icon, width
 								+ 5 /* ref triangle is 5x9 pixels */
 								+ 2 /* padding */,
