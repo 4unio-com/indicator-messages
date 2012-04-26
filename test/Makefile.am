@@ -3,6 +3,7 @@ check_LIBRARIES = libgtest.a
 check_PROGRAMS = test-gtest
 
 TESTS =
+check_SCRIPTS =
 
 AM_CPPFLAGS = $(GTEST_CPPFLAGS) \
 	-I${top_srcdir}/src
@@ -11,11 +12,9 @@ nodist_libgtest_a_SOURCES = \
 	$(GTEST_SOURCE)/src/gtest-all.cc \
 	$(GTEST_SOURCE)/src/gtest_main.cc
 libgtest_a_CPPFLAGS = \
-	$(GTEST_CPPFLAGS) -w
+	$(GTEST_CPPFLAGS) -w $(AM_CPPFLAGS)
 libgtest_a_CXXFLAGS = \
 	$(AM_CXXFLAGS)
-libgtest_a_CPPFLAGS = \
-	$(AM_CPPFLAGS)
 
 TESTS += test-gtest
 
@@ -29,6 +28,23 @@ test_gtest_LDADD = \
 	$(APPLET_LIBS) \
 	$(top_builddir)/src/.libs/libindicator-messages-status-provider.la \
 	libgtest.a
+
+
+######################################
+# test-service
+######################################
+
+check_PROGRAMS += test-service
+test_service_SOURCES = test-service.cc
+test_service_LDADD = $(SERVICE_TEST_LIBS) libgtest.a
+test_service_CPPFLAGS = $(SERVICE_TEST_CFLAGS) $(AM_CPPFLAGS)
+
+check_SCRIPTS += test-service-runner.sh
+TESTS += test-service-runner.sh
+test-service-runner.sh: Makefile.am
+	@echo "#!/bin/sh" > $@
+	@echo $(top_builddir)/test/test-service $(top_builddir)/src/indicator-messages-service$(EXEEXT) 2\>/dev/null >> $@
+	@chmod +x $@
 
 
 ######################################

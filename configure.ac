@@ -44,8 +44,10 @@ GIO_UNIX_REQUIRED_VERSION=2.18
 PANEL_REQUIRED_VERSION=2.0.0
 INDICATE_REQUIRED_VERSION=0.6.90
 INDICATOR_REQUIRED_VERSION=0.3.19
+DBUSMENUGLIB_REQUIRED_VERSION=0.1.1
 DBUSMENUGTK_REQUIRED_VERSION=0.5.90
 GLIB_REQUIRED_VERSION=2.31.20
+DBUSTEST_REQUIRED_VERSION=0.0.5
 
 AC_ARG_WITH([gtk],
   [AS_HELP_STRING([--with-gtk],
@@ -127,8 +129,16 @@ if test "x$enable_tests" != "xno"; then
     elif test "x$enable_tests" = "xyes" && test "x$have_gtest" != "xyes"; then
         AC_MSG_ERROR([tests were requested but gtest is not installed.])
     fi
+    if test "x$enable_tests" = "xyes"; then
+        PKG_CHECK_MODULES([SERVICE_TEST], [dbustest-1 >= DBUSTEST_REQUIRED_VERSION
+                                           indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
+                                           dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION])
+    fi
 fi
 AM_CONDITIONAL([BUILD_TESTS],[test "x$enable_tests" = "xyes"])
+AC_SUBST(SERVICE_TEST_CFLAGS)
+AC_SUBST(SERVICE_TEST_LDFLAGS)
+
 
 ###########################
 # Check to see if we're local
@@ -232,6 +242,6 @@ Messaging Indicator Configuration:
 
 	Prefix:        $prefix
 	Indicator Dir: $INDICATORDIR
-	gtest:         $enable_tests
+	Unit Tests:    $enable_tests
 	gcov:          $use_gcov
 ])
