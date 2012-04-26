@@ -36,8 +36,8 @@ test_gtest_LDADD = \
 
 check_PROGRAMS += test-service
 test_service_SOURCES = test-service.cc
-test_service_LDADD = $(SERVICE_TEST_LIBS) libgtest.a
-test_service_CPPFLAGS = $(SERVICE_TEST_CFLAGS) $(AM_CPPFLAGS)
+test_service_LDADD = $(TEST_SERVICE_LIBS) libgtest.a
+test_service_CPPFLAGS = $(TEST_SERVICE_CFLAGS) $(AM_CPPFLAGS)
 
 check_SCRIPTS += test-service-runner.sh
 TESTS += test-service-runner.sh

@@ -130,14 +130,14 @@ if test "x$enable_tests" != "xno"; then
         AC_MSG_ERROR([tests were requested but gtest is not installed.])
     fi
     if test "x$enable_tests" = "xyes"; then
-        PKG_CHECK_MODULES([SERVICE_TEST], [dbustest-1 >= DBUSTEST_REQUIRED_VERSION
+        PKG_CHECK_MODULES([TEST_SERVICE], [dbustest-1 >= DBUSTEST_REQUIRED_VERSION
                                            indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
                                            dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION])
     fi
 fi
 AM_CONDITIONAL([BUILD_TESTS],[test "x$enable_tests" = "xyes"])
-AC_SUBST(SERVICE_TEST_CFLAGS)
-AC_SUBST(SERVICE_TEST_LDFLAGS)
+AC_SUBST(TEST_SERVICE_CFLAGS)
+AC_SUBST(TEST_SERVICE_LDFLAGS)
 
 
 ###########################
