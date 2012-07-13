@@ -1,4 +1,4 @@
-indicator-messages (0.7.0-0ubuntu1) UNRELEASED; urgency=low
+indicator-messages (0.7.0-0ubuntu1~lmm0) quantal; urgency=low
 
   [ Sebastien Bacher ]
   * Drop gtk2 build from the packaging since support for it was 
@@ -6,6 +6,7 @@ indicator-messages (0.7.0-0ubuntu1) UNRELEASED; urgency=low
 
   [ Ken VanDine ]
   * New upstream release.
+    - Merge the libmessaging-menu branch
 
  -- Ken VanDine <ken.vandine@canonical.com>  Fri, 13 Jul 2012 17:09:07 -0400
 

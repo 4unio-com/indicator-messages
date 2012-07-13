@@ -7,12 +7,10 @@ Uploaders: Evgeni Golov <evgeni@debian.org>
 Build-Depends: debhelper (>= 5.0),
                cdbs (>= 0.4.41),
                dh-autoreconf,
-               libgtk-3-dev,
+               libgtk-3-dev (>= 3.5.6-0ubuntu6~lmm1),
                libdbus-glib-1-dev,
                intltool,
-               libindicate-dev (>= 0.6.90),
-               libindicate-gtk3-dev (>= 0.6.90),
-               libindicator3-dev (>= 0.3.90),
+               libindicator3-dev (>= 12.10.0-0ubuntu2~lmm0),
                libdbusmenu-glib-dev (>= 0.5.90),
                libdbusmenu-gtk3-dev (>= 0.5.90),
                libtelepathy-glib-dev (>= 0.9.0)
@@ -24,67 +22,43 @@ Vcs-Browser: http://bazaar.launchpad.net/~ubuntu-desktop/indicator-messages/ubun
 Package: indicator-messages
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Recommends: indicator-applet | indicator-renderer, indicator-status-provider-mc5
-Replaces: indicator-me
-Breaks: indicator-applet (<< 0.3.0)
-Conflicts: indicator-me
+Recommends: indicator-applet | indicator-renderer
+Replaces: indicator-me,
+          libindicator-messages-status-provider1,
+          libindicator-messages-status-provider-dev,
+          indicator-status-provider-mc5,
+          indicator-status-provider-pidgin,
+          indicator-status-provider-telepathy,
+          indicator-status-provider-emesene
+Breaks: indicator-applet (<< 0.3.0),
+Conflicts: indicator-me,
+           libindicator-messages-status-provider1,
+           libindicator-messages-status-provider-dev,
+           indicator-status-provider-mc5,
+           indicator-status-provider-pidgin,
+           indicator-status-provider-telepathy,
+           indicator-status-provider-emesene
 Description: indicator that collects messages that need a response
  A place on the user's desktop that collects messages that need a response.
  This menu provides a condensed and collected view of all of those messages
  for quick access, but without making them annoying in times that you want
  to ignore them.
 
-Package: libindicator-messages-status-provider1
+Package: libmessaging-menu0
 Architecture: any
 Section: libs
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Description: indicator status provider - shared library
+Description: Messaging Menu - shared library
  This library contains information to build status providers to go into
  the messaging menu.
 
-Package: libindicator-messages-status-provider-dev
+Package: libmessaging-menu-dev
 Architecture: any
 Section: libdevel
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         libindicator-messages-status-provider1 (= ${binary:Version})
+         libmessaging-menu0 (=${binary:Version})
 Description: indicator status provider - library development files
  This library contains information to build status providers to go into
  the messaging menu.
-
-Package: indicator-status-provider-mc5
-Architecture: any
-Depends: ${shlibs:Depends},
-         ${misc:Depends},
-         indicator-messages (>= 0.4.92)
-Description: indicator-messages status provider for telepathy mission-control-5
- A status provider for indicator-messages to update your desktop presence 
- from telepathy mission-control-5.
-
-Package: indicator-status-provider-pidgin
-Architecture: any
-Depends: ${shlibs:Depends},
-         ${misc:Depends},
-         indicator-messages (>= 0.4.92)
-Description: indicator-messages status provider for pidgin 
- A status provider for indicator-messages to update your desktop presence 
- from pidgin.
-
-Package: indicator-status-provider-telepathy
-Architecture: any
-Depends: ${shlibs:Depends},
-         ${misc:Depends},
-         indicator-messages (>= 0.4.92)
-Description: indicator-messages status provider for telepathy (pre-mc5)
- A status provider for indicator-messages to update your desktop presence 
- from telepathy (pre-mc5).
-
-Package: indicator-status-provider-emesene
-Architecture: any
-Depends: ${shlibs:Depends},
-         ${misc:Depends},
-         indicator-messages (>= 0.4.92)
-Description: indicator-messages status provider for emesene 
- A status provider for indicator-messages to update your desktop presence 
- from emesene.
