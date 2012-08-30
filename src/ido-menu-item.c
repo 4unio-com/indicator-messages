@@ -48,19 +48,18 @@ static void
 ido_menu_item_constructed (GObject *object)
 {
   IdoMenuItemPrivate *priv = IDO_MENU_ITEM (object)->priv;
-  GtkWidget *grid;
+  GtkWidget *table;
 
   priv->icon = g_object_ref (gtk_image_new ());
-  gtk_widget_set_margin_right (priv->icon, 6);
 
   priv->label = g_object_ref (gtk_label_new (""));
 
-  grid = gtk_grid_new ();
-  gtk_grid_attach (GTK_GRID (grid), priv->icon, 0, 0, 1, 1);
-  gtk_grid_attach (GTK_GRID (grid), priv->label, 1, 0, 1, 1);
+  table = gtk_table_new (1, 2, FALSE);
+  gtk_table_attach(GTK_TABLE (table), priv->icon, 0, 0, 1, 1, GTK_SHRINK, GTK_SHRINK, 0, 0);
+  gtk_table_attach(GTK_TABLE (table), priv->label, 1, 0, 1, 1, GTK_EXPAND, GTK_FILL, 6, 0);
 
-  gtk_container_add (GTK_CONTAINER (object), grid);
-  gtk_widget_show_all (grid);
+  gtk_container_add (GTK_CONTAINER (object), table);
+  gtk_widget_show_all (table);
 
   G_OBJECT_CLASS (ido_menu_item_parent_class)->constructed (object);
 }
@@ -263,7 +262,7 @@ ido_menu_item_activate (GtkMenuItem *item)
 
 static void
 ido_menu_item_draw_indicator (GtkCheckMenuItem *item,
-                              cairo_t          *cr)
+                              GdkRectangle          *cr)
 {
   IdoMenuItem *self = IDO_MENU_ITEM (item);
 

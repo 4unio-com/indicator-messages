@@ -50,29 +50,25 @@ static void
 im_source_menu_item_constructed (GObject *object)
 {
   ImSourceMenuItemPrivate *priv = IM_SOURCE_MENU_ITEM (object)->priv;
-  GtkWidget *grid;
   gint icon_width;
+  GtkWidget *table;
 
   gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &icon_width, NULL);
 
   priv->icon = g_object_ref (gtk_image_new ());
-  gtk_widget_set_margin_left (priv->icon, icon_width + 6);
 
   priv->label = g_object_ref (gtk_label_new (""));
 
   priv->detail = g_object_ref (gtk_label_new (""));
-  gtk_widget_set_halign (priv->detail, GTK_ALIGN_END);
-  gtk_widget_set_hexpand (priv->detail, TRUE);
   gtk_misc_set_alignment (GTK_MISC (priv->label), 1.0, 0.5);
-  gtk_style_context_add_class (gtk_widget_get_style_context (priv->detail), "accelerator");
 
-  grid = gtk_grid_new ();
-  gtk_grid_attach (GTK_GRID (grid), priv->icon, 0, 0, 1, 1);
-  gtk_grid_attach (GTK_GRID (grid), priv->label, 1, 0, 1, 1);
-  gtk_grid_attach (GTK_GRID (grid), priv->detail, 2, 0, 1, 1);
+  table = gtk_table_new (1, 3, FALSE);
+  gtk_table_attach(GTK_TABLE (table), priv->icon, 0, 0, 1, 1, GTK_SHRINK, GTK_SHRINK, 0, 0);
+  gtk_table_attach(GTK_TABLE (table), priv->label, 1, 0, 1, 1, GTK_EXPAND, GTK_FILL, icon_width + 6, 0);
+  gtk_table_attach(GTK_TABLE (table), priv->detail, 1, 0, 1, 1, GTK_EXPAND, GTK_FILL, 6, 0);
 
-  gtk_container_add (GTK_CONTAINER (object), grid);
-  gtk_widget_show_all (grid);
+  gtk_container_add (GTK_CONTAINER (object), table);
+  gtk_widget_show_all (table);
 
   G_OBJECT_CLASS (im_source_menu_item_parent_class)->constructed (object);
 }

@@ -45,19 +45,18 @@ static void
 im_app_menu_item_constructed (GObject *object)
 {
   ImAppMenuItemPrivate *priv = IM_APP_MENU_ITEM (object)->priv;
-  GtkWidget *grid;
+  GtkWidget *table;
 
   priv->icon = g_object_ref (gtk_image_new ());
-  gtk_widget_set_margin_right (priv->icon, 6);
 
   priv->label = g_object_ref (gtk_label_new (""));
 
-  grid = gtk_grid_new ();
-  gtk_grid_attach (GTK_GRID (grid), priv->icon, 0, 0, 1, 1);
-  gtk_grid_attach (GTK_GRID (grid), priv->label, 1, 0, 1, 1);
+  table = gtk_table_new (1, 2, FALSE);
+  gtk_table_attach(GTK_TABLE (table), priv->icon, 0, 0, 1, 1, GTK_SHRINK, GTK_SHRINK, 0, 0);
+  gtk_table_attach(GTK_TABLE (table), priv->label, 1, 0, 1, 1, GTK_EXPAND, GTK_FILL, 6, 0);
 
-  gtk_container_add (GTK_CONTAINER (object), grid);
-  gtk_widget_show_all (grid);
+  gtk_container_add (GTK_CONTAINER (object), table);
+  gtk_widget_show_all (table);
 
   G_OBJECT_CLASS (im_app_menu_item_parent_class)->constructed (object);
 }
@@ -196,28 +195,34 @@ im_app_menu_item_finalize (GObject *object)
   G_OBJECT_CLASS (im_app_menu_item_parent_class)->finalize (object);
 }
 
-static gboolean
+/*static gboolean
 im_app_menu_item_draw (GtkWidget *widget,
                        cairo_t   *cr)
 {
   ImAppMenuItemPrivate *priv = IM_APP_MENU_ITEM (widget)->priv;
 
-  GTK_WIDGET_CLASS (im_app_menu_item_parent_class)->draw (widget, cr);
+  //GTK_WIDGET_CLASS (im_app_menu_item_parent_class)->draw (widget, cr);
 
   if (priv->is_running)
     {
       const int arrow_width = 5;
       const double half_arrow_height = 4.5;
       GtkAllocation alloc;
-      GdkRGBA color;
+      //GdkColor color;
+      //const gchar color_prop;
       double center;
 
       gtk_widget_get_allocation (widget, &alloc);
 
+      // state = gtk_widget_get_state(widget)
       gtk_style_context_get_color (gtk_widget_get_style_context (widget),
                                    gtk_widget_get_state_flags (widget),
-                                   &color);
-      gdk_cairo_set_source_rgba (cr, &color);
+                                   &color);*/
+      /*gtk_style_get (gtk_widget_get_style(widget),
+                     IM_APP_MENU_ITEM,
+                     gtk_widget_get_state(widget),
+                     &color_prop);
+      gdk_cairo_set_source_color (cr, &color);
 
       center = alloc.height / 2 + 0.5;
 
@@ -230,7 +235,7 @@ im_app_menu_item_draw (GtkWidget *widget,
     }
 
   return FALSE;
-}
+}*/
 
 static void
 im_app_menu_item_activate (GtkMenuItem *item)
@@ -245,7 +250,7 @@ static void
 im_app_menu_item_class_init (ImAppMenuItemClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+  //GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
   GtkMenuItemClass *menu_item_class = GTK_MENU_ITEM_CLASS (klass);
 
   g_type_class_add_private (klass, sizeof (ImAppMenuItemPrivate));
@@ -255,7 +260,7 @@ im_app_menu_item_class_init (ImAppMenuItemClass *klass)
   object_class->dispose = im_app_menu_item_dispose;
   object_class->finalize = im_app_menu_item_finalize;
 
-  widget_class->draw = im_app_menu_item_draw;
+  //widget_class->draw = im_app_menu_item_draw;
 
   menu_item_class->activate = im_app_menu_item_activate;
 

@@ -122,8 +122,9 @@ indicator_messages_init (IndicatorMessages *self)
 	g_signal_connect (self->service, "connection-change",
 			  G_CALLBACK (service_connection_changed), self);
 
-	self->menu_wrapper = g_menu_new ();
-	self->gtkmenu = gtk_menu_new_from_model (G_MENU_MODEL (self->menu_wrapper));
+	//self->menu_wrapper = g_menu_new ();
+	//self->gtkmenu = gtk_menu_new_from_model (G_MENU_MODEL (self->menu_wrapper));
+	self->gtkmenu = gtk_menu_new();
 	g_object_ref_sink (self->gtkmenu);
 
 	self->image = g_object_ref_sink (gtk_image_new ());
@@ -201,9 +202,9 @@ static void service_connection_changed (IndicatorServiceManager *sm,
 	self->actions = G_ACTION_GROUP (g_dbus_action_group_get (bus,
 								 INDICATOR_MESSAGES_DBUS_NAME,
 								 INDICATOR_MESSAGES_DBUS_OBJECT));
-	gtk_widget_insert_action_group (self->gtkmenu, 
-					get_name_hint (INDICATOR_OBJECT (self)),
-					self->actions);
+//	gtk_widget_insert_action_group (self->gtkmenu, 
+//					get_name_hint (INDICATOR_OBJECT (self)),
+//					self->actions);
 	g_signal_connect (self->actions, "action-state-changed::messages",
 			  G_CALLBACK (messages_state_changed), self);
 
