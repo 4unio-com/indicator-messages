@@ -202,6 +202,7 @@ static void service_connection_changed (IndicatorServiceManager *sm,
 	self->actions = G_ACTION_GROUP (g_dbus_action_group_get (bus,
 								 INDICATOR_MESSAGES_DBUS_NAME,
 								 INDICATOR_MESSAGES_DBUS_OBJECT));
+    g_print( "%s", g_action_group_list_actions( self->actions )[0] );
 //	gtk_widget_insert_action_group (self->gtkmenu, 
 //					get_name_hint (INDICATOR_OBJECT (self)),
 //					self->actions);

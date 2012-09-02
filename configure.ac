@@ -38,15 +38,15 @@ AC_PROG_CXX
 # Dependencies 
 ###########################
 
-GTK_REQUIRED_VERSION=2.24.0
+GTK_REQUIRED_VERSION=2.18
 GIO_UNIX_REQUIRED_VERSION=2.33.10
-INDICATOR_REQUIRED_VERSION=0.3.19
+INDICATOR_REQUIRED_VERSION=0.3.5
 GLIB_REQUIRED_VERSION=2.33.10
 INTROSPECTION_REQUIRED_VERSION=1.32.0
 
 PKG_CHECK_MODULES(APPLET, gtk+-2.0 >= $GTK_REQUIRED_VERSION
                           gio-unix-2.0 >= $GIO_UNIX_REQUIRED_VERSION
-                          indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
+                          indicator-0.4 >= $INDICATOR_REQUIRED_VERSION
                           glib-2.0 >= $GLIB_REQUIRED_VERSION
                           gmodule-2.0 >= $GLIB_REQUIRED_VERSION)
 
@@ -107,7 +107,7 @@ AC_ARG_ENABLE(localinstall, AS_HELP_STRING([--enable-localinstall], [install all
 if test "x$with_localinstall" = "xyes"; then
 	INDICATORDIR="${libdir}/indicators/2/"
 else
-	INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3-0.4`
+	INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator-0.4`
 fi
 AC_SUBST(INDICATORDIR)
 

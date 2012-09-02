@@ -201,6 +201,7 @@ im_app_menu_item_draw (GtkWidget *widget,
 {
   ImAppMenuItemPrivate *priv = IM_APP_MENU_ITEM (widget)->priv;
 
+  gtk_widget_draw( widget, cr );
   //GTK_WIDGET_CLASS (im_app_menu_item_parent_class)->draw (widget, cr);
 
   if (priv->is_running)
@@ -217,8 +218,8 @@ im_app_menu_item_draw (GtkWidget *widget,
       // state = gtk_widget_get_state(widget)
       gtk_style_context_get_color (gtk_widget_get_style_context (widget),
                                    gtk_widget_get_state_flags (widget),
-                                   &color);*/
-      /*gtk_style_get (gtk_widget_get_style(widget),
+                                   &color);
+      gtk_style_get (gtk_widget_get_style(widget),
                      IM_APP_MENU_ITEM,
                      gtk_widget_get_state(widget),
                      &color_prop);
