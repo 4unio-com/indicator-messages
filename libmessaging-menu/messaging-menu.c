@@ -708,8 +708,8 @@ messaging_menu_app_insert_source (MessagingMenuApp *app,
                                   GIcon            *icon,
                                   const gchar      *label)
 {
-  messaging_menu_app_insert_source_with_time (app, position, id, icon, label,
-                                              g_get_real_time ());
+  messaging_menu_app_insert_source_action (app, position, id, icon, label,
+                                           g_variant_new ("(uxsb)", 0, 0, "", FALSE));
 }
 
 /**

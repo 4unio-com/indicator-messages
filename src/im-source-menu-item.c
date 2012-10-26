@@ -150,15 +150,15 @@ im_source_menu_item_set_state (ImSourceMenuItem *self,
 
   g_variant_get (state, "(ux&sb)", &count, &time, &str, NULL);
 
-  if (count != 0)
-    ido_detail_label_set_count (IDO_DETAIL_LABEL (priv->detail), count);
-  else if (time != 0)
+  if (time != 0)
     {
       im_source_menu_item_set_detail_time (self, time);
       priv->timer_id = g_timeout_add_seconds (59, im_source_menu_item_update_time, self);
     }
   else if (str != NULL && *str)
     ido_detail_label_set_text (IDO_DETAIL_LABEL (priv->detail), str);
+  else
+    ido_detail_label_set_count (IDO_DETAIL_LABEL (priv->detail), count);
 
   return TRUE;
 }
