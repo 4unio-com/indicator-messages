@@ -25,8 +25,8 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KEY_NAME     "DesktopFiles"
 
 GHashTable * seendb = NULL;
-gchar * filename = NULL;
-gchar * dirname = NULL;
+static gchar * filename = NULL;
+static gchar * dirname = NULL;
 guint write_process = 0;
 
 /* Build the hashtable and then see if we have a keyfile that
