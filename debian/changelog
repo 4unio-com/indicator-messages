@@ -1,3 +1,9 @@
+indicator-messages (12.10.6daily13.04.09-0ubuntu1) raring; urgency=low
+
+  * Automatic snapshot from revision 340
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 09 Apr 2013 02:02:02 +0000
+
 indicator-messages (12.10.6daily13.04.08-0ubuntu1) raring; urgency=low
 
   [ Marco Trevisan (Treviño) ]
