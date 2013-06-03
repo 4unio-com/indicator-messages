@@ -277,6 +277,7 @@ im_application_list_remove_all (GSimpleAction *action,
       g_strfreev (source_actions);
       g_strfreev (message_actions);
     }
+  im_application_list_update_draws_attention (app->list);
 }
 
 static void
