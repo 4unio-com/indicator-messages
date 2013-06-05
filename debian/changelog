@@ -1,3 +1,10 @@
+indicator-messages (13.11.0phablet1) saucy; urgency=low
+
+  * Fixed indicator blue icon.
+  * Removed use of deprecated functions.
+
+ -- Renato Araujo Oliveira Filho <renato@canonical.com>  Wed, 05 Jun 2013 15:06:03 -0300
+
 indicator-messages (13.10.0phablet1) raring; urgency=low
 
   * Version bump to not pull from archives
