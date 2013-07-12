@@ -4,7 +4,7 @@ EXTRA_DIST =
 CLEANFILES = 
 DISTCLEANFILES =
 
-libexec_PROGRAMS = indicator-messages-service
+pkglibexec_PROGRAMS = indicator-messages-service
 
 
 ######################################

@@ -11,4 +11,4 @@ export G_MESSAGES_DEBUG
 
 respawn
 
-exec @libexecdir@/indicator-messages-service
+exec @pkglibexecdir@/indicator-messages-service
