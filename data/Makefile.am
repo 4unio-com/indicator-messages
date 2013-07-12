@@ -1,9 +1,9 @@
 SUBDIRS = icons
 
-dbus_servicesdir = $(DBUSSERVICEDIR)
-dbus_services_DATA = indicator-messages.service
+upstart_jobsdir = $(datadir)/upstart/sessions
+upstart_jobs_DATA = indicator-messages.conf
 
-%.service: %.service.in
+%.conf: %.conf.in
 	sed -e "s|\@libexecdir\@|$(libexecdir)|" $< > $@
 
 gsettings_SCHEMAS = com.canonical.indicator.messages.gschema.xml
@@ -11,6 +11,6 @@ gsettings_SCHEMAS = com.canonical.indicator.messages.gschema.xml
 
 EXTRA_DIST = \
 	$(gsettings_SCHEMAS) \
-	indicator-messages.service.in
+	indicator-messages.conf.in
 
-CLEANFILES = indicator-messages.service
+CLEANFILES = indicator-messages.conf
