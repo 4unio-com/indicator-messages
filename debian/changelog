@@ -1,3 +1,20 @@
+indicator-messages (13.10.1+13.10.20130820.2-0ubuntu1) saucy; urgency=low
+
+  * Automatic snapshot from revision 354
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 08:59:34 +0000
+
+indicator-messages (13.10.1+13.10.20130820-0ubuntu1) saucy; urgency=low
+
+  [ Ted Gould ]
+  * Bumping version to ensure we override all PPAs when this lands
+
+  [ Ubuntu daily release ]
+  * debian/*symbols: auto-update new symbols to released version
+  * Automatic snapshot from revision 352
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 02:06:40 +0000
+
 indicator-messages (12.10.6+13.10.20130702-0ubuntu1) saucy; urgency=low
 
   [ Mathias Dietrich ]
