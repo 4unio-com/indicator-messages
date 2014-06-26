@@ -53,6 +53,7 @@ enum
   SOURCE_REMOVED,
   MESSAGE_ADDED,
   MESSAGE_REMOVED,
+  MESSAGE_ACTIVATED,
   APP_ADDED,
   APP_STOPPED,
   REMOVE_ALL,
@@ -308,12 +309,13 @@ im_application_list_source_activated (GSimpleAction *action,
 
   if (g_variant_get_boolean (parameter))
     {
-      indicator_messages_application_call_activate_source (app->proxy,
-                                                           source_id,
-                                                           app->cancellable,
-                                                           NULL, NULL);
+      if (app->proxy)
+        indicator_messages_application_call_activate_source (app->proxy,
+                                                             source_id,
+                                                             app->cancellable,
+                                                             NULL, NULL);
     }
-  else
+  else if (app->proxy)
     {
       const gchar *sources[] = { source_id, NULL };
       const gchar *messages[] = { NULL };
@@ -349,14 +351,16 @@ im_application_list_message_activated (GSimpleAction *action,
 
   if (g_variant_get_boolean (parameter))
     {
-      indicator_messages_application_call_activate_message (app->proxy,
-                                                            message_id,
-                                                            "",
-                                                            g_variant_new_array (G_VARIANT_TYPE_VARIANT, NULL, 0),
-                                                            app->cancellable,
-                                                            NULL, NULL);
+      if (app->proxy)
+        indicator_messages_application_call_activate_message (app->proxy,
+                                                              message_id,
+                                                              "",
+                                                              g_variant_new_array (G_VARIANT_TYPE_VARIANT, NULL, 0),
+                                                              app->cancellable,
+                                                              NULL, NULL);
+      g_signal_emit (app->list, signals[MESSAGE_ACTIVATED], 0, app->id, message_id, NULL, NULL);
     }
-  else
+  else if (app->proxy)
     {
       const gchar *sources[] = { NULL };
       const gchar *messages[] = { message_id, NULL };
@@ -384,13 +388,15 @@ im_application_list_sub_message_activated (GSimpleAction *action,
   if (parameter)
     g_variant_builder_add (&builder, "v", parameter);
 
-  indicator_messages_application_call_activate_message (app->proxy,
-                                                        message_id,
-                                                        action_id,
-                                                        g_variant_builder_end (&builder),
-                                                        app->cancellable,
-                                                        NULL, NULL);
+  if (app->proxy)
+    indicator_messages_application_call_activate_message (app->proxy,
+                                                          message_id,
+                                                          action_id,
+                                                          g_variant_builder_end (&builder),
+                                                          app->cancellable,
+                                                          NULL, NULL);
 
+  g_signal_emit (app->list, signals[MESSAGE_ACTIVATED], 0, app->id, message_id, action_id, parameter);
   im_application_list_message_removed (app, message_id);
 }
 
@@ -534,6 +540,19 @@ im_application_list_class_init (ImApplicationListClass *klass)
                                            2,
                                            G_TYPE_STRING,
                                            G_TYPE_STRING);
+
+  signals[MESSAGE_ACTIVATED] = g_signal_new ("message-activated",
+                                             IM_TYPE_APPLICATION_LIST,
+                                             G_SIGNAL_RUN_FIRST,
+                                             0,
+                                             NULL, NULL,
+                                             g_cclosure_marshal_generic,
+                                             G_TYPE_NONE,
+                                             4,
+                                             G_TYPE_STRING,
+                                             G_TYPE_STRING,
+                                             G_TYPE_STRING,
+                                             G_TYPE_VARIANT);
 
   signals[APP_ADDED] = g_signal_new ("app-added",
                                      IM_TYPE_APPLICATION_LIST,
@@ -1288,3 +1307,74 @@ im_application_list_set_status (ImApplicationList * list, const gchar * id, cons
 	return;
 }
 
+void
+im_application_list_add_message (ImApplicationList *list,
+                                 const gchar       *application_id,
+                                 const gchar       *notification_id,
+                                 GVariant          *notification)
+{
+  GVariantDict *dict;
+  GVariant *icon;
+  gchar *title;
+  gchar *body;
+  guint64 time;
+  GVariant *actions;
+  GVariant *message;
+  Application *app;
+
+  /* For now, repack notification into a GVariant that 'message-added'
+   * understands. This format can be made the canonical one if we decide
+   * that we like the new API and switch to it.
+   */
+  dict = g_variant_dict_new (notification);
+  if (!g_variant_dict_lookup (dict, "icon", "@v", &icon))
+    icon = NULL;
+  if (!g_variant_dict_lookup (dict, "title", "s", &title))
+    title = NULL;
+  if (!g_variant_dict_lookup (dict, "body", "s", &body))
+    body = NULL;
+  if (!g_variant_dict_lookup (dict, "time", "x", &time))
+    time = g_get_real_time ();
+  actions = g_variant_dict_lookup_value (dict, "actions", G_VARIANT_TYPE ("aa{sv}"));
+  if (actions == NULL)
+    {
+      actions = g_variant_new_array (G_VARIANT_TYPE ("a{sv}"), NULL, 0);
+      g_variant_ref_sink (actions);
+    }
+
+  message = g_variant_new ("(s@avsssx@aa{sv}b)",
+                           notification_id,
+                           g_variant_new_array (G_VARIANT_TYPE ("v"), &icon, icon != NULL),
+                           title ? title : "",
+                           "", /* subtitle */
+                           body ? body : "",
+                           time,
+                           actions,
+                           TRUE); /* draws attention */
+
+  /* make sure the application is registered */
+  im_application_list_add (list, application_id);
+  app = im_application_list_lookup (list, application_id);
+
+  im_application_list_message_added (app, message);
+
+  g_variant_unref (message);
+  g_variant_unref (actions);
+  if (icon)
+    g_variant_unref (icon);
+  g_free (title);
+  g_free (body);
+  g_variant_dict_unref (dict);
+}
+
+void
+im_application_list_remove_message (ImApplicationList *list,
+                                    const gchar       *application_id,
+                                    const gchar       *notification_id)
+{
+  Application *app;
+
+  app = im_application_list_lookup (list, application_id);
+  if (app)
+    im_application_list_message_removed (app, notification_id);
+}

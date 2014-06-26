@@ -59,4 +59,13 @@ void                    im_application_list_set_status          (ImApplicationLi
                                                                  const gchar       *id,
                                                                  const gchar       *status);
 
+void                    im_application_list_add_message         (ImApplicationList *list,
+                                                                 const gchar       *application_id,
+                                                                 const gchar       *notification_id,
+                                                                 GVariant          *notification);
+
+void                    im_application_list_remove_message      (ImApplicationList *list,
+                                                                 const gchar       *application_id,
+                                                                 const gchar       *notification_id);
+
 #endif

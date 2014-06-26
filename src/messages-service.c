@@ -34,6 +34,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "im-phone-menu.h"
 #include "im-desktop-menu.h"
 #include "im-application-list.h"
+#include "im-notifications.h"
 
 #define NUM_STATUSES 5
 
@@ -223,6 +224,7 @@ main (int argc, char ** argv)
 {
 	GMainLoop * mainloop = NULL;
 	GBusNameOwnerFlags flags;
+	ImNotifications *notifications;
 
 	/* Glib init */
 #if G_ENCODE_VERSION(GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION) <= GLIB_VERSION_2_34
@@ -272,6 +274,8 @@ main (int argc, char ** argv)
 		g_strfreev (app_ids);
 	}
 
+	notifications = im_notifications_new (applications);
+
 	menus = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
 	g_hash_table_insert (menus, "phone", im_phone_menu_new (applications));
 	g_hash_table_insert (menus, "desktop", im_desktop_menu_new (applications));
@@ -282,6 +286,7 @@ main (int argc, char ** argv)
 
 	/* Clean up */
 	g_hash_table_unref (menus);
+	g_object_unref (notifications);
 	g_object_unref (messages_service);
 	g_object_unref (settings);
 	g_object_unref (applications);
