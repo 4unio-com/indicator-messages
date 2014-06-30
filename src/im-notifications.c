@@ -120,11 +120,6 @@ register_object_from_xml (GDBusConnection             *connection,
         {
           id = g_dbus_connection_register_object (connection, object_path, interface_info, vtable,
                                                   user_data, user_data_free_func, error);
-
-          /* don't call g_dbus_interface_info_unref (interface_info),
-           * because g_dbus_connection_register_object() doesn't take a
-           * ref like it should.
-           */
         }
       else
         {
