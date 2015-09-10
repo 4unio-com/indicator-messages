@@ -1004,7 +1004,7 @@ im_application_list_sources_listed (GObject      *source_object,
     }
   else
     {
-      if (error != NULL) && (error->message != NULL)
+      if ((error != NULL) && (error->message != NULL))
           g_warning ("could not fetch the list of sources: %s", error->message);
       else
           g_warning ("could not fetch the list of sources");
