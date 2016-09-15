@@ -1,3 +1,9 @@
+indicator-messages (13.10.1+16.10.20160915.1-0ubuntu1) yakkety; urgency=medium
+
+  * Adding a systemd user session unit file
+
+ -- Ted Gould <ted@gould.cx>  Thu, 15 Sep 2016 19:35:09 +0000
+
 indicator-messages (13.10.1+15.10.20150505-0ubuntu1) wily; urgency=medium
 
   [ Lars Uebernickel ]
