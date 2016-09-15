@@ -4,3 +4,4 @@ usr/share/glib-2.0
 usr/share/icons
 usr/share/unity/indicators
 etc/xdg/autostart
+usr/lib/systemd

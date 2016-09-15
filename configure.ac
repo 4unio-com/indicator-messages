@@ -65,6 +65,9 @@ AC_ARG_WITH([indicator-dir],
 	    [with_indicator_dir=$datadir/unity/indicators])
 AC_SUBST([INDICATOR_DIR], [$with_indicator_dir])
 
+SYSTEMD_USERDIR=`$PKG_CONFIG --variable=systemduserunitdir systemd`
+AC_SUBST(SYSTEMD_USERDIR)
+
 ###########################
 # gcov coverage reporting
 ###########################
