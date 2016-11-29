@@ -1,3 +1,14 @@
+indicator-messages (13.10.1+17.04.20161129.2-0ubuntu1) zesty; urgency=medium
+
+  [ Charles Kerr ]
+  * Fix Zesty FTBFS by making gnome-common build dependency explicit
+
+  [ Michael Terry ]
+  * Work inside a snap by prefixing hard coded paths with $SNAP. (LP:
+    #1629009)
+
+ -- charles.kerr@canonical.com <charles.kerr@canonical.com>  Tue, 29 Nov 2016 19:56:17 +0000
+
 indicator-messages (13.10.1+17.04.20161021-0ubuntu1) zesty; urgency=medium
 
   [ Ted Gould ]
