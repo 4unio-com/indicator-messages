@@ -1,3 +1,9 @@
+indicator-messages (13.10.1+17.04.20170120-0ubuntu1) zesty; urgency=medium
+
+  * Hide "Indicator Messages" from Startup Applications app
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Fri, 20 Jan 2017 01:52:15 +0000
+
 indicator-messages (13.10.1+17.04.20161201-0ubuntu1) zesty; urgency=medium
 
   [ Charles Kerr ]
